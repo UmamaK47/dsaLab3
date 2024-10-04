@@ -186,6 +186,9 @@ string postfix(Stack<char>& opStk, string infix_exp) {
 				postfix_exp += temp;
 				opStk.pop();
 			}
+			if (opStk.Top() == '(') {
+				opStk.pop();
+			}
 		}
 		else if (isOperator(infix_exp[i])) {
 			if (opStk.isEmpty()) {
