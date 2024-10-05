@@ -85,6 +85,7 @@ char Stack<ItemType>::Top() {
 int precedence(char op);
 bool isOperator(char op); 
 bool isOperand(char c);
+bool parenthesisBalanced(string& exp);
 
 string postfix(Stack<char>& opStk, string infix_exp);
 string prefix(Stack<char>& opStk, string infix_exp);
@@ -104,13 +105,13 @@ int main() {
 		cout << "Enter Infix Expression: ";
 		cin >> infix;
 		string postfix_exp= postfix(opStk, infix);
-		cout << "Postfix Expression: " << postfix_exp;
+		cout << postfix_exp;
 	}
 	else if (choice == 2) {
 		cout << "Enter Infix Expression: ";
 		cin >> infix;
 		string prefix_exp = prefix(opStk, infix);
-		cout << "Prefix Expression: " << prefix_exp;
+		cout << prefix_exp;
 	}
 	else if (choice == 3) {
 		int a, b;
@@ -150,6 +151,18 @@ bool isOperator(char op) {
 bool isOperand(char c) {
 	return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
 }
+bool parenthesisBalanced(string& exp) {
+	int count=0;
+	for (char p : exp) {
+		if (p == '(') {
+			count++;
+		}
+		else if (p == ')') {
+			count--;
+		}
+	}
+	return count == 0;
+}
 
 int multiplication(int a, int b) {
 	if (b == 1) {
@@ -172,7 +185,9 @@ double power(int x, int n) {
 string postfix(Stack<char>& opStk, string infix_exp) {
 	string postfix_exp = "";
 	char op;
-
+	if (!parenthesisBalanced(infix_exp)) {
+		return "INVALID INFIX EXPRESSION: Your expression is not balanced. Please ensure expression consists equal number of opening and closing parenthesis";
+	}
 	for (int i = 0; i < infix_exp.length(); i++) {
 		if (isOperand(infix_exp[i])) {
 			postfix_exp += infix_exp[i];
@@ -213,7 +228,7 @@ string postfix(Stack<char>& opStk, string infix_exp) {
 		postfix_exp += opStk.Top();
 		opStk.pop();
 	}
-	return postfix_exp;
+	return "Postfix Expression: "+postfix_exp;
 }
 
 string prefix(Stack<char>& opStk, string infix_exp) {
@@ -222,6 +237,10 @@ string prefix(Stack<char>& opStk, string infix_exp) {
 	string prefix_exp = "";
 	string exp = "";
 	char op;
+
+	if (!parenthesisBalanced(infix_exp)) {
+		return "INVALID INFIX EXPRESSION: Your expression is not balanced. Please ensure expression consists equal number of opening and closing parenthesis";
+	}
 
 	//reverse infix expression using stack and store in a variable
 	for (int i = 0; i < infix_exp.length(); i++) {
@@ -280,5 +299,5 @@ string prefix(Stack<char>& opStk, string infix_exp) {
 	for (int i = 0;i <exp.length();i++) {
 		prefix_exp +=tempStk.pop();
 	}
-	return prefix_exp;
+	return "Prefix Expression: "+prefix_exp;
 }
