@@ -86,6 +86,8 @@ int precedence(char op);
 bool isOperator(char op); 
 bool isOperand(char c);
 bool parenthesisBalanced(string& exp);
+bool validCharacter(char c);
+bool validExpression(string& exp);
 
 string postfix(Stack<char>& opStk, string infix_exp);
 string prefix(Stack<char>& opStk, string infix_exp);
@@ -177,6 +179,17 @@ bool parenthesisBalanced(string& exp) {
 	}
 	return count == 0;
 }
+bool validCharacter(char c) {
+	return isOperator(c) || isOperand(c) || c == '(' || c == ')';
+}
+bool validExpression(string& exp) {
+	for (char c : exp) {
+		if (!validCharacter(c)) {
+			return false;
+		}
+	}
+	return true;
+}
 
 int multiplication(int a, int b) {
 	if (b == 1) {
@@ -201,6 +214,9 @@ string postfix(Stack<char>& opStk, string infix_exp) {
 	char op;
 	if (!parenthesisBalanced(infix_exp)) {
 		return "INVALID INFIX EXPRESSION: Your expression is not balanced. Please ensure expression consists equal number of opening and closing parenthesis";
+	}
+	if (!validExpression(infix_exp)) {
+		return "INVALID INFIX EXPRESIION: Your expression has invalid characters.";
 	}
 	for (int i = 0; i < infix_exp.length(); i++) {
 		if (isOperand(infix_exp[i])) {
@@ -254,6 +270,9 @@ string prefix(Stack<char>& opStk, string infix_exp) {
 
 	if (!parenthesisBalanced(infix_exp)) {
 		return "INVALID INFIX EXPRESSION: Your expression is not balanced. Please ensure expression consists equal number of opening and closing parenthesis";
+	}
+	if (!validExpression(infix_exp)) {
+		return "INVALID INFIX EXPRESIION: Your expression has invalid characters.";
 	}
 
 	//reverse infix expression using stack and store in a variable
