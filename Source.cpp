@@ -223,6 +223,7 @@ string prefix(Stack<char>& opStk, string infix_exp) {
 	string exp = "";
 	char op;
 
+	//reverse infix expression using stack and store in a variable
 	for (int i = 0; i < infix_exp.length(); i++) {
 		 tempStk.push(infix_exp[i]);
 	}
@@ -230,18 +231,21 @@ string prefix(Stack<char>& opStk, string infix_exp) {
 		reversed_exp += tempStk.pop();
 	}
 	
-
+	//perform infix-prefix algorithm
 	for (int i = 0; i < reversed_exp.length(); i++) {
 		if (isOperand(reversed_exp[i])) {
 			exp += reversed_exp[i];
 		}
-		else if (reversed_exp[i] == '(') {
+		else if (reversed_exp[i] == ')') {
 			opStk.push(reversed_exp[i]);
 		}
-		else if (reversed_exp[i] == ')') {
-			while (opStk.Top() != '(' && !opStk.isEmpty()) {
+		else if (reversed_exp[i] == '(') {
+			while (opStk.Top() != ')' && !opStk.isEmpty()) {
 				char temp = opStk.Top();
 				exp += temp;
+				opStk.pop();
+			}
+			if (opStk.Top() == ')') {
 				opStk.pop();
 			}
 		}
@@ -269,6 +273,7 @@ string prefix(Stack<char>& opStk, string infix_exp) {
 		opStk.pop();
 	}
 	
+	//reverse the string again for final prefix expression and return
 	for (int i = 0;i < exp.length();i++) {
 		tempStk.push(exp[i]);
 	}
