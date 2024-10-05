@@ -97,37 +97,51 @@ int main() {
 	Stack<char> opStk;
 	string infix;
 	int choice;
+	char con='y';
+	bool continueLoop=true;
+	do {
+		cout << "------MENU------\n1. INFIX to POSTFIX\n2. INFIX to PREFIX\n3. MULTIPLICATION\n4. POWER\n";
+		cin >> choice;
 
-	cout << "------MENU------\n1. INFIX to POSTFIX\n2. INFIX to PREFIX\n3. MULTIPLICATION\n4. POWER\n";
-	cin >> choice;
+		if (choice == 1) {
+			cout << "Enter Infix Expression: ";
+			cin >> infix;
+			string postfix_exp = postfix(opStk, infix);
+			cout << postfix_exp;
+		}
+		else if (choice == 2) {
+			cout << "Enter Infix Expression: ";
+			cin >> infix;
+			string prefix_exp = prefix(opStk, infix);
+			cout << prefix_exp;
+		}
+		else if (choice == 3) {
+			int a, b;
+			cout << "\nEnter 2 Integers: ";
+			cin >> a >> b;
+			cout << "\n" << a << " * " << b << " = " << multiplication(a, b);
+		}
+		else if (choice == 4) {
+			int x, n;
+			cout << "\nEnter Integer and its power: ";
+			cin >> x >> n;
+			cout << "\n" << x << " ^ " << n << " = " << power(x, n);
+		}
+		else {
+			cout << "Invalid Input";
+		}
+		cout << "\nWould you like to continue?(Y/N)";
+		cin >> con;
+		if (con == 'n' || con == 'N') {
+			cout << "Exiting Program...";
+		}
+		else if(con == 'y' || con == 'Y'){}
+		else {
+			cout << "invalid input: enter Y/N";
+		}
+	} while (con=='y' || con=='Y');
 
-	if (choice == 1) {
-		cout << "Enter Infix Expression: ";
-		cin >> infix;
-		string postfix_exp= postfix(opStk, infix);
-		cout << postfix_exp;
-	}
-	else if (choice == 2) {
-		cout << "Enter Infix Expression: ";
-		cin >> infix;
-		string prefix_exp = prefix(opStk, infix);
-		cout << prefix_exp;
-	}
-	else if (choice == 3) {
-		int a, b;
-		cout << "\nEnter 2 Integers: ";
-		cin >> a >> b;
-		cout<<"\n"<<a<<" * "<<b<<" = " << multiplication(a, b);
-	}
-	else if (choice == 4) {
-		int x, n;
-		cout << "\nEnter Integer and its power: ";
-		cin >> x >> n;
-		cout << "\n" << x << " ^ " << n << " = " << power(x, n);
-	}
-	else {
-		cout << "Invalid Input";
-	}
+	
 }
 
 //Funtion Definitions:
